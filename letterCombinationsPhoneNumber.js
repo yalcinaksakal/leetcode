@@ -16,13 +16,14 @@ const map = [
 ];
 
 let combination = "";
-let allComb = [];
+let allComb = [],
+  length = 0;
 const allCombinations = digits => {
   digits.split("").forEach((digit, i) => {
     map[digit].forEach(ch => {
       combination += ch;
       allCombinations(digits.slice(i + 1));
-      allComb.push(combination);
+      if (combination.length === length) allComb.push(combination);
       combination = combination.slice(0, -1);
     });
   });
@@ -31,8 +32,9 @@ const allCombinations = digits => {
 var letterCombinations = function (digits) {
   allComb = [];
   combination = "";
+  length = digits.length;
   allCombinations(digits);
-  return allComb.filter(c => c.length === digits.length);
+  return allComb;
 };
 
 result = letterCombinations("234");
