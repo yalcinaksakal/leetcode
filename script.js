@@ -33,7 +33,7 @@ const conversionTable = [
   { symbol: "I", value: 1 },
 ];
 
-var intToRoman = function (num) {
+const intToRoman = function (num) {
   roman = "";
   i = 0;
   while (i < conversionTable.length) {
@@ -44,7 +44,7 @@ var intToRoman = function (num) {
   }
   return roman;
 };
-var romanToInt = function (s) {
+const romanToInt = function (s) {
   result = 0;
   i = 0;
   j = 0;
