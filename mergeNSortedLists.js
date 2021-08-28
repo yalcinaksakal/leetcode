@@ -38,6 +38,12 @@ current = list3;
   current.next = new ListNode(val);
   current = current.next;
 });
+list4 = new ListNode(-10);
+current = list4;
+[-9, -2, -1, 12, 15, 17].forEach(val => {
+  current.next = new ListNode(val);
+  current = current.next;
+});
 
 const mergeLists = function (listArr) {
   const remainingList = listArr.filter(l => l !== null);
@@ -53,5 +59,10 @@ const mergeLists = function (listArr) {
   return linker(remainingList[minList], others);
 };
 
-result = mergeLists([list1, list2, list3]);
-console.log(result);
+result = mergeLists([list1, list2, list3, list4]);
+arr = [];
+while (result) {
+  arr.push(result.val);
+  result = result.next;
+}
+console.log(arr);
