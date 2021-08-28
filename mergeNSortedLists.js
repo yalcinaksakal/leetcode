@@ -40,17 +40,17 @@ current = list3;
 });
 
 const mergeLists = function (listArr) {
-  const remainingList = listArr.filter(l => !l);
+  const remainingList = listArr.filter(l => l !== null);
   if (remainingList.length === 1) return remainingList[0];
   const linker = (min, others) => {
     min.next = mergeLists([min.next, ...others]);
     return min;
   };
-  min = Math.min(...listArr.map(list => list.val));
-  minList = listArr.findIndex(list => list.val === min);
-  others = listArr.filter((_, i) => i !== minList);
+  min = Math.min(...remainingList.map(list => list.val));
+  minList = remainingList.findIndex(list => list.val === min);
+  others = remainingList.filter((_, i) => i !== minList);
 
-  return linker(listArr[minList], others);
+  return linker(remainingList[minList], others);
 };
 
 result = mergeLists([list1, list2, list3]);
