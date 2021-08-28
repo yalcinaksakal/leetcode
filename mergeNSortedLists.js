@@ -32,15 +32,26 @@ current = list2;
   current.next = new ListNode(val);
   current = current.next;
 });
+list3 = new ListNode(-8);
+current = list3;
+[-5, -4, -2, 6, 11, 12].forEach(val => {
+  current.next = new ListNode(val);
+  current = current.next;
+});
 
-const mergeTwoLists = function (l1, l2) {
-  if (!l1 || !l2) return l1 || l2;
-  const linker = (s, b) => {
-    s.next = mergeTwoLists(s.next, b);
-    return s;
+const mergeLists = function (listArr) {
+  const remainingList = listArr.filter(l => !l);
+  if (remainingList.length === 1) return remainingList[0];
+  const linker = (min, others) => {
+    min.next = mergeLists([min.next, ...others]);
+    return min;
   };
-  return l1.val < l2.val ? linker(l1, l2) : linker(l2, l1);
+  min = Math.min(...listArr.map(list => list.val));
+  minList = listArr.findIndex(list => list.val === min);
+  others = listArr.filter((_, i) => i !== minList);
+
+  return linker(listArr[minList], others);
 };
 
-result = mergeTwoLists(list1, list2);
+result = mergeLists([list1, list2, list3]);
 console.log(result);
