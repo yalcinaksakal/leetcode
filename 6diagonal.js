@@ -33,15 +33,3 @@ var convert = function (s, numRows) {
 
 result = convert("PAYPALISHIRING", 3);
 console.log(result);
-
-const reverse = x => {
-  result = (x + "")
-    .split("")
-    .reverse()
-    .reduce((a, b) => (a === "0" ? b : a + b));
-  result =
-    result[result.length - 1] === "-" ? "-" + result.slice(0, -1) : result;
-  // (+a | 0) == a;
-  return (+result | 0) == result ? result : 0;
-};
-console.log(reverse(1222222222277999));
