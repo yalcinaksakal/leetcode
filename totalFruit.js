@@ -49,8 +49,6 @@
 //     for (j = length; j > i; j--) {
 //       basket = fruits.slice(i, j);
 //       if (basket.length <= result) continue;
-//       //   console.log(basket);
-//       //   console.log(new Set(basket).size);
 //       if (new Set(basket).size < 3 && basket.length > result)
 //         result = basket.length;
 //     }
