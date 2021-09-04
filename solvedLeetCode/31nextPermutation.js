@@ -36,9 +36,11 @@ var nextPermutation = function (nums) {
   if (lastPeek === -1) return nums.sort((a, b) => a - b);
   //check if lower peek exist on right side
   lowerPeek = lastPeek;
-  for (i = lastPeek + 1; i < length; i++)
-    if (nums[i] > nums[lastPeek - 1] && nums[i] <= nums[lowerPeek])
+  for (i = length - 1; i > lastPeek; i--)
+    if (nums[i] > nums[lastPeek - 1] && nums[i] <= nums[lowerPeek]) {
       lowerPeek = i;
+      break;
+    }
   //swap elements in lastPeek-1 with lowerPeek
   const temp = nums[lastPeek - 1];
   nums[lastPeek - 1] = nums[lowerPeek];
