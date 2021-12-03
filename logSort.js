@@ -18,9 +18,6 @@ var reorderLogFiles = function (logs) {
     if (a.key > b.key) return 1;
     return 0;
   });
-
-  console.log(lLogs);
-
   return [...lLogs.map(log => log.key + " " + log.content), ...dLogs];
 };
 
