@@ -10,7 +10,7 @@ var addStrings = function (num1, num2) {
     digitSum = l1 - i >= 0 ? +num1[l1 - i] : 0;
 
     digitSum += l2 - i >= 0 ? +num2[l2 - i] : 0;
-    console.log(digitSum);
+
     digitSum += remainder;
     remainder = digitSum > 9 ? 1 : 0;
     digitSum %= 10;
