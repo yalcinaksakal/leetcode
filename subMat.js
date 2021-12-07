@@ -1,38 +1,31 @@
-var numSubmat = function (mat) {
-  const m = mat.length,
-    n = mat[0].length;
-  let res = 0,
-    k,
-    r;
-  const count = (i, j) => {
-    r = m;
-    while (j < n && mat[i][j]) {
-      k = i;
+const conversionTable = [
+  { symbol: "M", value: 1000 },
+  { symbol: "CM", value: 900 },
+  { symbol: "D", value: 500 },
+  { symbol: "CD", value: 400 },
+  { symbol: "C", value: 100 },
+  { symbol: "XC", value: 90 },
+  { symbol: "L", value: 50 },
+  { symbol: "XL", value: 40 },
+  { symbol: "X", value: 10 },
+  { symbol: "IX", value: 9 },
+  { symbol: "V", value: 5 },
+  { symbol: "IV", value: 4 },
+  { symbol: "I", value: 1 },
+];
 
-      while (k < r && mat[k][j]) {
-        res++;
-        k++;
-      }
-
-      r = Math.min(k, r);
-      j++;
-    }
-  };
-  for (let i = 0; i < m; i++) for (let j = 0; j < n; j++) count(i, j);
-
-  return res;
+const romanToInt = function (s) {
+  result = 0;
+  i = 0;
+  j = 0;
+  length = 0;
+  while (i < s.length && j < conversionTable.length) {
+    length = conversionTable[j].symbol.length;
+    if (s.slice(i, i + length) === conversionTable[j].symbol) {
+      result += conversionTable[j].value;
+      i += length;
+    } else j++;
+  }
+  return result;
 };
-console.log(
-  numSubmat([
-    [1, 1, 1, 1, 0],
-    [1, 0, 0, 1, 0],
-    [0, 0, 1, 0, 1],
-    [0, 1, 0, 0, 0],
-  ])
-);
-console.log(
-  numSubmat([
-    [1, 1],
-    [0, 1],
-  ])
-);
+romanToInt("");
