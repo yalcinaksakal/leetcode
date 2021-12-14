@@ -8,7 +8,7 @@ var searchRange = function (nums, target) {
 		if (nums[mid] < target) low = mid + 1;
 		else high = mid;
 	}
-	console.log(nums[low]);
+
 	if (nums[low] === target) {
 		high = low;
 		while (nums[high + 1] === target) high++;
