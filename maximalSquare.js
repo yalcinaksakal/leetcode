@@ -9,6 +9,7 @@ var maximalSquare = function (mat) {
 
 	const isSquareMat = (i, j) => {
 		let l = mat[i - 1][j - 1];
+
 		for (let k = i - 1; k > i - l - 1 && k >= 0; k--)
 			if (!mat[k][j]) {
 				l = i - k - 1;
