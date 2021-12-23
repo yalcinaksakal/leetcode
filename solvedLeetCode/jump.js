@@ -1,31 +1,15 @@
 /**
  * @param {number[]} nums
- * @return {number}
+ * @return {boolean}
  */
-var jump = function (nums) {
-	if (nums.length < 2) return 0;
+var canJump = function (nums) {
+	let l = nums.length - 1;
+	let reachable = l;
 
-	let bfs = [0],
-		children = new Set();
-
-	let i = 0,
-		step = 0,
-		cur;
-
-	while (true) {
-		cur = bfs.shift();
-
-		for (let i = 1; i <= nums[cur]; i++) {
-			if (cur + i === nums.length - 1) return step + 1;
-			children.add(cur + i);
-		}
-
-		if (!bfs.length) {
-			bfs = [...children];
-			children = new Set();
-			step++;
-		}
+	while (l > 1) {
+		l--;
+		if (nums[l] + l >= reachable) reachable = l;
 	}
-};
 
-console.log(jump([2, 3, 1, 1, 4]));
+	return nums[0] >= reachable;
+};
