@@ -1,22 +1,30 @@
 /**
- * @param {number[]} nums1
- * @param {number} m
- * @param {number[]} nums2
- * @param {number} n
- * @return {void} Do not return anything, modify nums1 in-place instead.
+ * @param {number[][]} intervals
+ * @return {number[][]}
  */
-var merge = function (nums1, m, nums2, n) {
-  const push = val => {
-    nums1[m] = val;
-    let i = m;
-    while (val < nums1[i - 1] && i) {
-      [nums1[i - 1], nums1[i]] = [nums1[i], nums1[i - 1]];
-      i--;
-    }
-    m++;
-  };
-  while (nums2.length) push(nums2.shift());
 
-  console.log(nums1);
+var merge = function (intervals) {
+	const res = [];
+	let i = 0,
+		j = 1;
+
+	intervals.sort((a, b) => a[0] - b[0]);
+
+	while (i < intervals.length) {
+		while (j < intervals.length && intervals[i][1] >= intervals[j][0]) {
+			intervals[i][1] = Math.max(intervals[j][1], intervals[i][1]);
+			j++;
+		}
+		res.push(intervals[i]);
+		i = j;
+		j++;
+	}
+
+	return res;
 };
-console.log(merge([1, 2, 3, 0, 0, 0], 3, [2, 5, 6], 3));
+
+merge([
+	[1, 4],
+	[0, 2],
+	[3, 5],
+]);
