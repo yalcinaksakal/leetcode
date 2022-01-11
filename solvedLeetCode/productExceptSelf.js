@@ -1,23 +1,23 @@
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
 var productExceptSelf = function (nums) {
-  const prefix = [],
-    postfix = [],
-    result = [],
-    n = nums.length;
-  let pre = 1,
-    post = 1;
-  for (let i = 0; i < n; i++) {
-    pre *= nums[i];
-    post *= nums[n - i - 1];
-    prefix.push(pre);
-    postfix.unshift(post);
-  }
+	let zeros = 0,
+		zeroIndex;
+	const product = nums.reduce((acc, cur, i) => {
+		if (!cur) {
+			zeros++;
+			zeroIndex = i;
+			return acc;
+		}
+		return acc * cur;
+	}, 1);
 
-  for (let i = 0; i < n; i++) {
-    pre = i === 0 ? 1 : prefix[i - 1];
-    post = i === n - 1 ? 1 : postfix[i + 1];
-    result.push(pre * post);
-  }
-
-  return result;
+	if (zeros) {
+		const res = Array(nums.length).fill(0);
+		if (zeros < 2) res[zeroIndex] = product;
+		return res;
+	}
+	return nums.map(num => product / num);
 };
-console.log(productExceptSelf([1, 2, 3, 4]));

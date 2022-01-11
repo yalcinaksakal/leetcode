@@ -1,23 +1,23 @@
+/**
+ * @param {number[][]} isConnected
+ * @return {number}
+ */
 var findCircleNum = function (isConnected) {
-  const n = isConnected.length;
-  const provinces = [];
-  let neigbours, index;
-  for (let i = 0; i < n; i++) {
-    neigbours = new Set([i]);
-    for (let j = i + 1; j < n; j++) if (isConnected[i][j]) neigbours.add(j);
-    index = provinces.findIndex(s => s.has(i));
-    if (index === -1) provinces.push(neigbours);
-    else provinces[index].add(...neigbours);
-  }
-  return provinces.length;
+	const n = isConnected.length;
+	const visited = new Set();
+	let res = 0;
+
+	const dfs = i => {
+		visited.add(i);
+		for (let j = 0; j < n; j++)
+			if (!visited.has(j) && isConnected[i][j]) dfs(j);
+	};
+
+	for (let i = 0; i < n; i++)
+		if (!visited.has(i)) {
+			res++;
+			dfs(i);
+		}
+
+	return res;
 };
-console.log(
-  findCircleNum([
-    [
-      [1, 0, 0, 1],
-      [0, 1, 1, 0],
-      [0, 1, 1, 1],
-      [1, 0, 1, 1],
-    ],
-  ])
-);
