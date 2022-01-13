@@ -3,17 +3,24 @@
  * @param {string} s
  * @return {boolean}
  */
-var wordPattern = function (pattern, s) {
-  const map = {},
-    words = s.split(" ");
-  let word;
-  for (let i = 0; i < words.length; i++) {
-    word = words[i];
-    if (i > pattern.length - 1) return false;
-    if (!map[pattern[i]]) map[pattern[i]] = word;
-    else if (map[pattern[i]] !== word) return false;
-  }
-  return true;
-};
+const wordPattern = function (pattern, s) {
+	const patternMap = {},
+		wordMap = {},
+		words = s.split(" ");
+	let ch, w;
 
-console.log(wordPattern("abba", "dog cat cat fish"));
+	if (words.length !== pattern.length) return false;
+
+	for (i = 0; i < pattern.length; i++) {
+		ch = pattern[i];
+		if (!patternMap[ch]) {
+			w = words[i];
+			if (wordMap[w]) return false;
+			patternMap[ch] = words[i];
+			wordMap[w] = ch;
+			continue;
+		}
+		if (patternMap[ch] !== words[i]) return false;
+	}
+	return true;
+};
