@@ -4,32 +4,26 @@
  * @return {boolean}
  */
 var wordBreak = function (s, wordDict) {
-	const map = {},
-		checkMap = {};
+	const words = {},
+		dp = {};
 	let maxWord = 0;
 	for (const word of wordDict) {
-		map[word] = 1;
+		words[word] = 1;
 		maxWord = Math.max(maxWord, word.length);
 	}
 
-	const check = str => {
+	const check = i => {
 		let word = "";
-		if (!str.length) return true;
-		for (let i = 0; i < maxWord; i++) {
-			word += str[i];
-			if (map[word]) {
-				const remaining = str.slice(i + 1);
-				if (checkMap[remaining] === undefined)
-					checkMap[remaining] = check(remaining);
-				if (checkMap[remaining]) return true;
+		if (i == s.length) return true;
+		for (let k = i; k < i + maxWord; k++) {
+			word += s[k];
+			if (words[word]) {
+				if (dp[k + 1] === undefined) dp[k + 1] = check(k + 1);
+				if (dp[k + 1]) return true;
 			}
 		}
 		return false;
 	};
 
-	return check(s);
+	return check(0);
 };
-
-console.log(
-	wordBreak("catsandogcat", ["cats", "dog", "sand", "and", "cat", "an"])
-);
