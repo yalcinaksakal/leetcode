@@ -1,20 +1,26 @@
 /**
- * @param {string} ransomNote
- * @param {string} magazine
+ * @param {string} s
+ * @param {number} k
  * @return {boolean}
  */
-
-const canConstruct = (ransomNote, magazine) => {
+var canConstruct = function (s, k) {
+	if (k > s.length) return false;
+	if (k == s.length) return true;
 	const chars = {};
+	let doubles = 0;
 
-	for (const ch of magazine) chars[ch] ? chars[ch]++ : (chars[ch] = 2);
+	for (const ch of s)
+		if (chars[ch]) {
+			chars[ch] % 2 && doubles++;
+			chars[ch]++;
+		} else chars[ch] = 1;
 
-	for (const ch of ransomNote) {
-		if (!chars[ch] || chars[ch] === 1) return false;
-		chars[ch]--;
-	}
+	doubles *= 2;
 
-	return true;
+	const longestPalLength = s.length > doubles ? doubles + 1 : doubles;
+	const min = s.length - longestPalLength + 1;
+	if (k < min) return false;
+	if (longestPalLength >= k - s.length + longestPalLength) return true;
+
+	return false;
 };
-
-canConstruct("aa", "aab");
