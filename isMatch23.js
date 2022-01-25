@@ -22,9 +22,4 @@ const isMatch = function (s, p) {
 	return dp[s.length - 1][p.length - 1];
 };
 
-//    -1  *  *  ?  c  *
-//     -  -  -  -  -  -
-//-1|  1  1  0  0  0  0
-// a|  0  0  0  1  0  1
-// a|  0  0  0  0  1  1
 console.log(isMatch("aa", "*"));
