@@ -14,13 +14,13 @@ var increasingBST = function (root) {
 	const stack = [];
 	let res, prev;
 
-	while (stack.length || root) {
+	while (root || stack.length) {
 		if (root) {
 			stack.push(root);
 			root = root.left;
 		} else {
 			root = stack.pop();
-			if (res === undefined) {
+			if (!prev) {
 				res = new TreeNode(root.val);
 				prev = res;
 			} else {
@@ -30,6 +30,5 @@ var increasingBST = function (root) {
 			root = root.right;
 		}
 	}
-
 	return res;
 };

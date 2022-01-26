@@ -3,25 +3,17 @@
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
 var setZeroes = function (matrix) {
-	const columns = {};
-	for (let i = 0; i < matrix.length; i++)
-		for (let j = 0; j < matrix[0].length; j++)
-			if (columns[j] && matrix[i][j]) matrix[i][j] = 0;
-			else if (!matrix[i][j]) {
-				while (j < matrix[0].length) {
-					if (!matrix[i][j]) {
-						for (let k = 0; k < i; k++) matrix[k][j] = 0;
-						columns[j] = 1;
-					}
-					j++;
-				}
-				matrix[i] = Array(matrix[0].length).fill(0);
-			}
-	console.log(matrix);
-};
+	const m = matrix.length,
+		n = matrix[0].length;
 
-setZeroes([
-	[1, 1, 1],
-	[1, 0, 1],
-	[1, 1, 1],
-]);
+	const mark = (i, j) => {
+		for (let k = 0; k < m; k++) if (matrix[k][j]) matrix[k][j] = ".";
+		for (let k = 0; k < n; k++) if (matrix[i][k]) matrix[i][k] = ".";
+	};
+
+	for (let i = 0; i < m; i++)
+		for (let j = 0; j < n; j++) if (!matrix[i][j]) mark(i, j);
+
+	for (let i = 0; i < m; i++)
+		for (let j = 0; j < n; j++) if (matrix[i][j] == ".") matrix[i][j] = 0;
+};
