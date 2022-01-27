@@ -1,39 +1,21 @@
+/**
+ * @param {number[][]} intervals
+ * @return {number[][]}
+ */
 var merge = function (intervals) {
-	const map = {};
+	let i = 0,
+		j = 1,
+		res = [];
 
-	for (const [s, e] of intervals) if (!map[s] || map[s] < e) map[s] = e;
+	intervals.sort((a, b) => a[0] - b[0]);
 
-	const res = [];
+	while (i < intervals.length) {
+		while (j < intervals.length && intervals[i][1] >= intervals[j][0])
+			intervals[i][1] = Math.max(intervals[i][1], intervals[j++][1]);
 
-	for (let [s, e] of Object.entries(map)) {
-		if (!map[s]) continue;
-
-		for (let i = +s + 1; i < e + 1; i++)
-			if (map[i]) {
-				if (map[i] > e) {
-					map[s] = map[i];
-					e = map[i];
-				}
-				delete map[i];
-			}
-
-		res.push([s, e]);
+		res.push(intervals[i]);
+		i = j++;
 	}
-
-	for (const e of Object.entries(map)) res.push(e);
 
 	return res;
 };
-
-merge([
-	[1, 3],
-	[2, 6],
-	[8, 10],
-	[14, 17],
-	[15, 18],
-	[1, 4],
-	[12, 18],
-	[4, 5],
-	[20, 27],
-	[10, 12],
-]);
