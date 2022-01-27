@@ -13,16 +13,22 @@
  * @return {boolean}
  */
 var isCousins = function (root, x, y) {
-	let xPos, yPos;
+	let xp, xd, yp, yd;
 
 	const getDepth = (r, p, d) => {
 		if (!r) return;
-		if (r.val == x) xPos = { p, d };
-		if (r.val == y) yPos = { p, d };
-		if (xPos && yPos) return;
+		if (r.val == x) {
+			xp = p;
+			xd = d;
+		}
+		if (r.val == y) {
+			yp = p;
+			yd = d;
+		}
+		if (xp && yp) return;
 		getDepth(r.left, r.val, d + 1);
 		getDepth(r.right, r.val, d + 1);
 	};
-	getDepth(root, null, 0);
-	return xPos.p != yPos.p && xPos.d == yPos.d;
+	getDepth(root, -1, 0);
+	return xp != yp && xd == yd;
 };
