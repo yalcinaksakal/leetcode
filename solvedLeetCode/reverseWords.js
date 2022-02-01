@@ -3,8 +3,18 @@
  * @return {string}
  */
 var reverseWords = function (s) {
-	return s
-		.split(" ")
-		.map(w => w.split("").reverse().join(""))
-		.join(" ");
+	let res = "";
+	let w = "";
+	for (const c of s) {
+		if (c == " ") {
+			w.length && (res = w + (res.length ? " " : "") + res);
+			w = "";
+			continue;
+		}
+		w += c;
+	}
+	w.length && (res = w + (res.length ? " " : "") + res);
+	return res;
 };
+
+reverseWords("  hello world  ");
