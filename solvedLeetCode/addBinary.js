@@ -1,23 +1,27 @@
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {string}
+ */
 var addBinary = function (a, b) {
-  let i = 1,
-    sum,
-    remainder = 0;
-  const lenA = a.length,
-    lenB = b.length;
-  const result = [];
+	let i = 1,
+		sum,
+		rem = 0,
+		res = "";
 
-  while (lenA - i >= 0 || lenB - i >= 0) {
-    sum = lenA - i < 0 ? 0 : +a[lenA - i];
-    sum += lenB - i < 0 ? 0 : +b[lenB - i];
-    sum += remainder;
+	const l1 = a.length,
+		l2 = b.length;
 
-    result.unshift(sum % 2);
-    remainder = Math.floor(sum / 2);
+	while (l1 - i >= 0 || l2 - i >= 0) {
+		sum = l1 - i >= 0 ? +a[l1 - i] : 0;
+		sum += l2 - i >= 0 ? +b[l2 - i] : 0;
+		sum += rem;
 
-    i++;
-  }
-  if (remainder) result.unshift(remainder);
-  return result.join("");
+		rem = sum > 1 ? 1 : 0;
+		sum %= 2;
+		res = sum + res;
+		i++;
+	}
+	if (rem) res = 1 + res;
+	return res;
 };
-
-addBinary("11", "1");
