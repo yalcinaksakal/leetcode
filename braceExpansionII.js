@@ -18,18 +18,25 @@ var braceExpansionII = function (exp) {
 			switch (exp[j]) {
 				case "{":
 					const next = handleExp(j + 1);
-					if (!j || exp[j - 1] == "," || exp[j - 1] == "{")
-						next.set.forEach(el => elSet.add(el));
-					else if (exp[j - 1] == "}") elSet = concat(elSet, next.set);
-					else {
-						concat(new Set(el), next.set).forEach(el => elSet.add(el));
-						el = "";
+					if (
+						next.end < exp.length &&
+						exp[next.end] != "," &&
+						exp[next.end] != "}"
+					) {
+						const tmpSet = handleExp(next.end);
+						next.set = concat(next.set, tmpSet.set);
+						next.end = tmpSet.end;
 					}
+					el && (next.set = concat(new Set([el]), next.set));
+					next.set.forEach(el => elSet.add(el));
+					el = "";
 					j = next.end;
+					if (exp[start - 1] != "{") return { set: elSet, end: j };
 					continue;
 				case ",":
 					if (el) {
 						elSet.add(el);
+						if (exp[start - 1] != "{") return { set: elSet, end: j };
 						el = "";
 					}
 					break;
@@ -40,8 +47,10 @@ var braceExpansionII = function (exp) {
 			j++;
 		}
 		if (el) elSet.add(el);
-		return { set: elSet, end: j + 1 };
+		return { set: elSet, end: j + (exp[start - 1] == "{" ? 1 : 0) };
 	};
 	return Array.from(handleExp(0).set).sort((a, b) => (a < b ? -1 : 0));
 };
-console.log(braceExpansionII("{a,b}c{d,e}f"));
+console.log(
+	braceExpansionII("n{{c,g},{h,j},l}a{{a,{x,ia,o},w},er,a{x,ia,o}w}n")
+);
