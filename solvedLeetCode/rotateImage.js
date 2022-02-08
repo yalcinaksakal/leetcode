@@ -2,24 +2,18 @@
  * @param {number[][]} matrix
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
-var rotate = function (matrix) {
-	let l = 0,
-		r = matrix.length - 1,
-		t,
-		b,
-		tl;
-	while (l < r) {
-		t = l;
-		b = r;
-		for (let i = 0; i < r - l; i++) {
-			tl = matrix[t][l + i];
-			matrix[t][l + i] = matrix[b - i][l];
-			matrix[b - i][l] = matrix[b][r - i];
-			matrix[b][r - i] = matrix[t + i][r];
-			matrix[t + i][r] = tl;
-		}
-
-		l++;
-		r--;
+var rotate = function (mat) {
+	const n = mat.length;
+	let tmp;
+	for (let i = 0, j = n - 1; i < j; ++i, --j) {
+		tmp = mat[i];
+		mat[i] = mat[j];
+		mat[j] = tmp;
 	}
+	for (let i = 0; i < n; ++i)
+		for (let j = i + 1; j < n; ++j) {
+			tmp = mat[i][j];
+			mat[i][j] = mat[j][i];
+			mat[j][i] = tmp;
+		}
 };
