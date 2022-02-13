@@ -4,22 +4,16 @@
  * @return {number}
  */
 var subarraySum = function (nums, k) {
-	let count = 0;
-	const prefix = [],
-		map = {};
+	const sums = {};
+	let newSum;
+	sums[0] = 0;
 
-	for (let i = 0; i < nums.length; i++) {
-		count += nums[i];
-		prefix.push(count);
-		map[count] ? map[count].push(i) : (map[count] = [i]);
+	for (const num of nums) {
+		for (const sum of Object.keys(sums)) {
+			newSum = +sum + num;
+			sums[newSum] == undefined ? (sums[newSum] = 1) : sums[newSum]++;
+		}
 	}
-	count = 0;
-
-	for (let i = 0; i < nums.length; i++) {
-		if (prefix[i] === k) count++;
-		if (map[prefix[i] - k]) map[prefix[i] - k].forEach(j => j < i && count++);
-	}
-
-	return count;
+	return sums[k] ? sums[k] : 0;
 };
-subarraySum([1, 1, 1], 2);
+subarraySum([1, -1, 0], 2);
