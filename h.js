@@ -1,11 +1,9 @@
-"use strict";
-
 function FastPriorityQueue(comparator) {
 	if (!(this instanceof FastPriorityQueue))
 		return new FastPriorityQueue(comparator);
 	this.array = [];
 	this.size = 0;
-	this.compare = comparator || (a, b => a < b);
+	this.compare = comparator || ((a, b) => a < b);
 }
 
 // copy the priority queue into another, and return it. Queue items are shallow-copied.
@@ -272,3 +270,29 @@ FastPriorityQueue.prototype.kSmallest = function (k) {
 	}
 	return smallest;
 };
+
+let a = new FastPriorityQueue();
+for (let i = 0; i < 100; i++)
+	console.log(a.add(Math.floor(Math.random() * i * 10 - i * 5)));
+console.log(a.array);
+
+function insertionSort(arr) {
+	// Write your code here
+	let shifts = 0;
+	const heap = [],
+		insert = val => {
+			let low = 0,
+				high = heap.length - 1,
+				mid;
+			while (low < high) {
+				mid = (low + high) >>> 1;
+				if (heap[mid] > val) low = mid + 1;
+				else high = mid;
+			}
+			if (low === heap.length - 1 && val < heap[heap.length - 1]) low++;
+			heap.splice(low, 0, val);
+			shifts += low;
+		};
+	for (const num of arr) insert(num);
+	return shifts;
+}

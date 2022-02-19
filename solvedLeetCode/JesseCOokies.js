@@ -272,3 +272,41 @@ FastPriorityQueue.prototype.kSmallest = function (k) {
 	}
 	return smallest;
 };
+function cookies(k, A) {
+	const freq = {},
+		heap = new FastPriorityQueue((a, b) => a[0] < b[0]);
+	for (const num of A) freq[num] ? freq[num]++ : (freq[num] = 1);
+	heap.heapify(
+		Object.entries(freq).map(el => {
+			el[0] = +el[0];
+			return el;
+		})
+	);
+	A = null;
+
+	let min1,
+		min2,
+		count = 0;
+
+	while (heap.size && heap.peek()[0] < k) {
+		min1 = heap.poll();
+		if (min1[1] > 1) {
+			if (min1[1] % 2) {
+				min1[1]--;
+				heap.add([min1[0], 1]);
+			}
+			min1[1] /= 2;
+			count += min1[1];
+			heap.add([3 * min1[0], min1[1]]);
+			continue;
+		}
+		count++;
+		min2 = heap.poll();
+		if (min2 === undefined) return -1;
+		if (min2[1] > 1) heap.add([min2[0], min2[1] - 1]);
+		heap.add([min1[0] + min2[0] * 2, 1]);
+	}
+	return count;
+}
+// cookies(7, [1, 2, 3, 9, 10, 12]);
+cookies(105823341, Array(100000).fill(1));

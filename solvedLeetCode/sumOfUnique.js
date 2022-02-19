@@ -3,16 +3,16 @@
  * @return {number}
  */
 var sumOfUnique = function (nums) {
-	let sum = 0;
-	const map = {};
-	for (const num of nums) {
-		if (map[num] != undefined) {
-			map[num] && (sum -= num);
-			map[num] = 0;
-		} else {
-			sum += num;
-			map[num] = 1;
+	let res = 0;
+	const isAdded = {};
+	for (const num of nums)
+		if (isAdded[num] == undefined) {
+			res += num;
+			isAdded[num] = true;
+		} else if (isAdded[num]) {
+			res -= num;
+			isAdded[num] = false;
 		}
-	}
-	return sum;
+
+	return res;
 };
