@@ -1,45 +1,54 @@
-var Trie = function () {
-	this.dict = {};
-};
+function noPrefix(words) {
+	// Write your code here
+	const trie = {},
+		add = word => {
+			let obj = trie,
+				ch,
+				i;
+			for (i = 0; i < word.length - 1; i++) {
+				ch = word[i];
+				if (!obj[ch]) obj[ch] = {};
+				else if (obj[ch].self) return true;
+				obj = obj[ch];
+			}
+			if (obj[word[i]]) return true;
+			obj[word[i]] = {};
+			obj = obj[word[i]];
+			obj["self"] = true;
+			return false;
+		};
 
-/**
- * @param {string} word
- * @return {void}
- */
-Trie.prototype.insert = function (word) {
-	let obj = this.dict;
-	for (const ch of word) {
-		if (!obj[ch]) obj[ch] = {};
-		obj = obj[ch];
-	}
-	obj["self"] = 1;
-};
+	for (const w of words)
+		if (add(w)) {
+			console.log("BAD SET");
+			console.log(w);
+			return;
+		}
 
-/**
- * @param {string} word
- * @return {boolean}
- */
-Trie.prototype.search = function (word, isPrefix) {
-	let obj = this.dict;
-	for (const ch of word) {
-		if (!obj[ch]) return false;
-		obj = obj[ch];
-	}
-	return isPrefix ? true : obj.self == 1;
-};
+	console.log("GOOD SET");
+}
+noPrefix([
+	"dfbacgjecgfjcaejghacjdhcchj",
+	"jjffdbeeejiehjdidbbdgidcaeejjdeiicibjfjgjjchedci",
+	"jhjfbjbhijbcgefgbbgdjbihcehfbgdeaie",
+	"jjddfcjaebdfbeaehaecibdbdcibebjbfgjidijhbjche",
+	"eiejiajeiefadghfffdh",
+	"gfdcdfjhiebfgicgfcghgicbabbaadbaj",
+	"gdjfbbhgieabiejajaefdfjdiadbieheiddeegie",
+	"hffedadc",
+	"g",
+	"adgahjcbihhgg",
+	"jcaafdicjhbejbdjbbhehad",
+	"jdedibfadddaahbagcgehhdiifddefgefhgecegfjecbdchc",
+	"eifebiej",
+]);
 
-/**
- * @param {string} prefix
- * @return {boolean}
- */
-Trie.prototype.startsWith = function (prefix) {
-	return this.search(prefix, true);
-};
-
-/**
- * Your Trie object will be instantiated and called as such:
- * var obj = new Trie()
- * obj.insert(word)
- * var param_2 = obj.search(word)
- * var param_3 = obj.startsWith(prefix)
- */
+noPrefix([
+	"aab",
+	"defgab",
+	"abcde",
+	"aabcde",
+	"cedaaa",
+	"bbbbbbbbbb",
+	"jabjjjad",
+]);
