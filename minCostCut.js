@@ -9,15 +9,15 @@ var minCost = function (n, cuts) {
 			const key = i + "," + j;
 			if (dp[key]) return dp[key];
 			let next,
-				min = 0,
-				isCut = false;
+				min = 0;
+
 			for (const cut of cuts)
 				if (cut > i && cut < j) {
-					if (!isCut) isCut = true;
 					next = getMinCut(i, cut) + getMinCut(cut, j);
 					if (!min || next < min) min = next;
 				}
-			dp[key] = min + (isCut ? j - i : 0);
+
+			dp[key] = min + (next === undefined ? 0 : j - i);
 			return dp[key];
 		};
 
