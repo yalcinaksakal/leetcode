@@ -6,7 +6,7 @@ var summaryRanges = function (nums) {
 	let start = 0,
 		end = -1;
 	const res = [];
-	nums.push(nums[0]);
+	nums.push(nums[0] - 1);
 	for (let i = 1; i < nums.length; i++) {
 		if (nums[i] === nums[i - 1]) continue;
 		if (nums[i] === nums[i - 1] + 1) {
@@ -20,4 +20,5 @@ var summaryRanges = function (nums) {
 
 	return res;
 };
+
 console.log(summaryRanges([0, 1, 2, 4, 5, 7]));
