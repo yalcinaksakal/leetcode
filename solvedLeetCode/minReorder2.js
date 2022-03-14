@@ -6,21 +6,16 @@
 
 const minReorder = (n, connections) => {
 	const roads = {},
-		visited = {};
+		visited = {},
+		visit = (d = 0) => {
+			visited[d] = 1;
+			for (const neighbour of roads[d]) {
+				if (visited[neighbour[0]]) continue;
+				if (neighbour[1] === "+") changes++;
+				visit(neighbour[0]);
+			}
+		};
 	let changes = 0;
-
-	const bfs = (city = 0) => {
-		if (visited[city]) return;
-		visited[city] = 1;
-		const next = [];
-		for (const c of roads[city]) {
-			if (visited[c[0]]) continue;
-			if (c[1] === "+") changes++;
-			next.push(c[0]);
-		}
-		for (const c of next) bfs(c);
-	};
-
 	//roads leaving +, arriving -
 	for (const [city1, city2] of connections) {
 		roads[city1]
@@ -31,16 +26,6 @@ const minReorder = (n, connections) => {
 			: (roads[city2] = [[city1, "-"]]);
 	}
 
-	bfs();
+	visit();
 	return changes;
 };
-
-console.log(
-	minReorder(6, [
-		[0, 1],
-		[1, 3],
-		[2, 3],
-		[4, 0],
-		[4, 5],
-	])
-);
