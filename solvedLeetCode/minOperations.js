@@ -1,27 +1,12 @@
 /**
- * @param {string} boxes
- * @return {number[]}
+ * @param {number[]} nums
+ * @return {number}
  */
-var minOperations = function (boxes) {
-	const preSum = [[]],
-		postSum = [[]],
-		res = [];
-	for (let i = 1; i < boxes.length; i++) {
-		preSum.push([...preSum[i - 1]]);
-		if (boxes[i - 1] === "1") preSum[i].push(i - 1);
-
-		postSum.unshift([...postSum[0]]);
-		if (boxes[boxes.length - i] === "1") postSum[0].push(boxes.length - i);
-	}
-
-	// console.log(preSum,postSum);
-	let sum;
-	for (let i = 0; i < boxes.length; i++) {
-		sum = 0;
-		sum += preSum[i].reduce((acc, cur) => acc + i - cur, 0);
-		sum += postSum[i].reduce((acc, cur) => acc + cur - i, 0);
-		res.push(sum);
-	}
-
-	return res;
-};
+const minOperations = nums =>
+	nums.reduce((a, c, i) => {
+		if (c > nums[i - 1] || !i) return a;
+		const dif = nums[i - 1] - c + 1;
+		nums[i] = nums[i - 1] + 1;
+		return a + dif;
+	}, 0);
+console.log(minOperations([1, 5, 2, 4, 1]));
