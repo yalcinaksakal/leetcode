@@ -2,7 +2,8 @@
  * @param {number[]} temperatures
  * @return {number[]}
  */
-var dailyTemperatures1 = function (temperatures) {
+
+var dailyTemperatures2 = function (temperatures) {
 	const res = [],
 		temp = {};
 	let found;
@@ -15,7 +16,7 @@ var dailyTemperatures1 = function (temperatures) {
 	return res.reverse();
 };
 
-var dailyTemperatures = function (temperatures) {
+var dailyTemperatures3 = function (temperatures) {
 	const res = Array(temperatures.length).fill(0),
 		temp = [];
 	let k = 0;
