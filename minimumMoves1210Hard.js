@@ -32,8 +32,8 @@ var minimumMoves = function (grid) {
 				? j && !grid[i][j - 1]
 				: i && !grid[i - 1][j],
 		visit = (i, j, d) => {
-			const isVer = hor.includes(d) ? 0 : 1;
-			const key = i + "," + j + "," + isVer;
+			const isVer = hor.includes(d) ? 0 : 1,
+				key = i + "," + j + "," + isVer;
 			if (
 				i === n ||
 				j === n ||
