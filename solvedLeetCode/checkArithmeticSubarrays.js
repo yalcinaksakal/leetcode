@@ -5,19 +5,16 @@
  * @return {boolean[]}
  */
 var checkArithmeticSubarrays = function (nums, l, r) {
-	const n = nums.length,
-		dp = Array(n)
-			.fill()
-			.map(() => Array(n).fill(true)),
-		res = [];
-	let j;
-	for (length = 3; length <= nums.length; length++)
-		for (let i = 0; i <= nums.length - length; i++) {
-			j = i + length - 1;
-			dp[i][j] =
-				dp[i][j - 1] && nums[i + 1] - nums[i] + nums[j - 1] === nums[j];
-		}
-	for (let i = 0; i < l.length; i++) res.push(dp[l[i]][r[i]]);
+	const res = [],
+		check = (i, j) => {
+			const arr = nums.slice(i, j + 1).sort((a, b) => a - b),
+				delta = arr[1] - arr[0];
+			for (let i = 2; i < arr.length; i++)
+				if (arr[i] - arr[i - 1] !== delta) return false;
+			return true;
+		};
+
+	for (let x = 0; x < l.length; x++) res.push(check(l[x], r[x]));
 	return res;
 };
 
