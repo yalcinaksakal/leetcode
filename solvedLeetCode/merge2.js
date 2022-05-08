@@ -1,30 +1,16 @@
 /**
- * @param {number[][]} intervals
- * @return {number[][]}
+ * @param {number[]} nums1
+ * @param {number} m
+ * @param {number[]} nums2
+ * @param {number} n
+ * @return {void} Do not return anything, modify nums1 in-place instead.
  */
-
-var merge = function (intervals) {
-	const res = [];
-	let i = 0,
-		j = 1;
-
-	intervals.sort((a, b) => a[0] - b[0]);
-
-	while (i < intervals.length) {
-		while (j < intervals.length && intervals[i][1] >= intervals[j][0]) {
-			intervals[i][1] = Math.max(intervals[j][1], intervals[i][1]);
-			j++;
-		}
-		res.push(intervals[i]);
-		i = j;
-		j++;
+var merge = function (nums1, m, nums2, n) {
+	let i = nums1.length - 1;
+	m--;
+	n--;
+	while (n >= 0) {
+		nums1[i] = nums2[n] > nums1[m] || m < 0 ? nums2[n--] : nums1[m--];
+		i--;
 	}
-
-	return res;
 };
-
-merge([
-	[1, 4],
-	[0, 2],
-	[3, 5],
-]);
