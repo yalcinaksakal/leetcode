@@ -1,0 +1,137 @@
+/**
+ * @param {number[][]} envelopes
+ * @return {number}
+ */
+
+function PriorityQueue(comparator) {
+	if (!(this instanceof PriorityQueue)) return new PriorityQueue(comparator);
+	this.array = [];
+	this.size = 0;
+	this.compare = comparator || ((a, b) => a > b);
+}
+
+PriorityQueue.prototype.add = function (myval) {
+	var i = this.size;
+	this.array[this.size] = myval;
+	this.size += 1;
+	var p;
+	var ap;
+	while (i > 0) {
+		p = (i - 1) >> 1;
+		ap = this.array[p];
+		if (!this.compare(myval, ap)) {
+			break;
+		}
+		this.array[i] = ap;
+		i = p;
+	}
+	this.array[i] = myval;
+};
+
+// for internal use
+PriorityQueue.prototype._percolateUp = function (i, force) {
+	var myval = this.array[i];
+	var p;
+	var ap;
+	while (i > 0) {
+		p = (i - 1) >> 1;
+		ap = this.array[p];
+		// force will skip the compare
+		if (!force && !this.compare(myval, ap)) {
+			break;
+		}
+		this.array[i] = ap;
+		i = p;
+	}
+	this.array[i] = myval;
+};
+
+// for internal use
+PriorityQueue.prototype._percolateDown = function (i) {
+	var size = this.size;
+	var hsize = this.size >>> 1;
+	var ai = this.array[i];
+	var l;
+	var r;
+	var bestc;
+	while (i < hsize) {
+		l = (i << 1) + 1;
+		r = l + 1;
+		bestc = this.array[l];
+		if (r < size) {
+			if (this.compare(this.array[r], bestc)) {
+				l = r;
+				bestc = this.array[r];
+			}
+		}
+		if (!this.compare(bestc, ai)) {
+			break;
+		}
+		this.array[i] = bestc;
+		i = l;
+	}
+	this.array[i] = ai;
+};
+
+PriorityQueue.prototype.peek = function () {
+	if (this.size == 0) return undefined;
+	return this.array[0];
+};
+
+PriorityQueue.prototype.poll = function () {
+	if (this.size == 0) return undefined;
+	var ans = this.array[0];
+	if (this.size > 1) {
+		this.array[0] = this.array.pop();
+		this.size--;
+		this._percolateDown(0);
+	} else this.size -= 1;
+
+	return ans;
+};
+
+var maxEnvelopes = function (envelopes) {
+	const pq = new PriorityQueue((a, b) => a[2] > b[2]);
+	let max = 1,
+		maxHeight = 0,
+		maxWidth = 0,
+		count;
+	envelopes.sort((a, b) => {
+		if (a[0] < b[0]) return -1;
+		if (a[0] === b[0] && a[1] < b[1]) return -1;
+		return 0;
+	});
+	pq.add([10 ** 5 + 1, 10 ** 5 + 1, 0]);
+	// pq.add([4, 5, 6]);
+
+	for (let i = envelopes.length - 1; i > -1; i--) {
+		if (envelopes[i][0] >= maxWidth || envelopes[i][1] >= maxHeight) {
+			count = 1;
+			maxWidth = Math.max(maxWidth, envelopes[i][0]);
+			maxHeight = Math.max(maxHeight, envelopes[i][1]);
+		} else {
+			const popped = [];
+			let peek = pq.peek();
+			while (envelopes[i][0] >= peek[0] || envelopes[i][1] >= peek[1]) {
+				popped.push(pq.poll());
+				peek = pq.peek();
+			}
+			popped.forEach(pop => pq.add(pop));
+			count = peek[2] + 1;
+		}
+		pq.add([...envelopes[i], count]);
+		max = Math.max(max, count);
+	}
+	return max;
+};
+maxEnvelopes([
+	[2, 100],
+	[3, 200],
+	[4, 300],
+	[5, 500],
+	[5, 400],
+	[5, 250],
+	[6, 370],
+	[6, 360],
+	[7, 380],
+]);
