@@ -8,16 +8,17 @@
 var minimumJumps = function (forbidden, a, b, x) {
 	if (!x) return 0;
 	forbidden = new Set(forbidden);
-	const seen = { ["0-false"]: true },
+	//memorize whether position-isJumpedBack is visited
+	const memo = { ["0-false"]: true },
 		bfs = [[0, false]],
 		jump = (pos, isJumpedBack) => {
 			if (
 				pos < 6000 &&
 				pos > -1 &&
 				!forbidden.has(pos) &&
-				!seen[pos + "-" + isJumpedBack]
+				!memo[pos + "-" + isJumpedBack]
 			) {
-				seen[pos + "-" + isJumpedBack] = true;
+				memo[pos + "-" + isJumpedBack] = true;
 				bfs.push([pos, isJumpedBack]);
 			}
 		};
