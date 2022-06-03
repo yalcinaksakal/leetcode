@@ -46,4 +46,4 @@ var removeInvalidParentheses = function (s) {
 		res = res.flatMap(prevComb => combs.map(comb => prevComb + comb));
 	return res;
 };
-console.log(removeInvalidParentheses("(r(()()("));
+console.log(removeInvalidParentheses("((r(()()("));
