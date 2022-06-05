@@ -8,11 +8,13 @@ var minMoves = function (nums, k) {
 		start = 0;
 	const indicesOfOnes = [],
 		processRange = (start, end) => {
-			let countOnes = 0,
+			let countOnes = 1,
 				swaps = 0;
-			for (let i = start + 1; i < end; i++)
+			for (let i = start + 1; i < end; i++) {
 				nums[i] ? countOnes++ : (swaps += Math.min(countOnes, k - countOnes));
-			min = Math.min(min, swaps);
+				if (swaps >= min) return;
+			}
+			min = swaps;
 		},
 		handleOnes = i => {
 			indicesOfOnes.push(i);
