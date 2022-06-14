@@ -35,3 +35,19 @@ kWeakestRows(
 	],
 	3
 );
+
+/**
+ * @param {number[][]} mat
+ * @param {number} k
+ * @return {number[]}
+ */
+var kWeakestRows = (mat, k) =>
+	mat
+		.map((row, i) => [row.reduce((a, c) => a + c, 0), i])
+		.sort((a, b) => {
+			if (a[0] < b[0]) return -1;
+			if (a[0] === b[0] && a[1] < b[1]) return -1;
+			return 0;
+		})
+		.slice(0, k)
+		.map(r => r[1]);
