@@ -35,14 +35,12 @@ var minCameraCover = function (root) {
 		installer = (node, nodeId, isCamAtParent, isCamAtNode) => {
 			if (!node) return 0;
 			if (!node.left && !node.right) return 1 - isCamAtParent;
-			const key = nodeId + isCamAtParent + isCamAtNode,
-				leftChildId = nodeId + "L",
-				rightChildId = nodeId + "R";
+			const key = nodeId + isCamAtParent + isCamAtNode;
 			if (memo[key] !== undefined) return memo[key];
 			return (memo[key] = getPossibilities(
 				node,
-				leftChildId,
-				rightChildId,
+				nodeId + "L",
+				nodeId + "R",
 				isCamAtNode,
 				!isCamAtNode && !isCamAtParent
 			));
