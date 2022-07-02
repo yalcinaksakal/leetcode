@@ -8,7 +8,11 @@ var numSubseq = function (nums, target) {
 	let res = 0,
 		i = nums.length;
 	const mod = 10 ** 9 + 7,
-		power = n => (n ? (2 * power(n - 1)) % mod : 1),
+		powMemo = { 0: 1 },
+		power = n => {
+			!powMemo[n] && (powMemo[n] = (2 * power(n - 1)) % mod);
+			return powMemo[n];
+		},
 		bs = (val, high) => {
 			let mid,
 				low = 0;
@@ -16,6 +20,7 @@ var numSubseq = function (nums, target) {
 				mid = (low + high) >>> 1;
 				nums[mid] > val ? (low = mid + 1) : (high = mid);
 			}
+
 			return low;
 		};
 	while (target - nums[--i] >= nums[i])
