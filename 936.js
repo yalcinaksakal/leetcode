@@ -32,7 +32,12 @@
                      abca
             ?????????????????    stamped positions=[9,8,7,6,5,4,0,3,13,1];
       5- if target becomes full of ? return res else it is impossible to reach the target so return []
-      
+            stamp=aa  target=aaaab
+            aa
+            ??aab
+              aa
+            ????b
+
       If it was asked to find minimum number of stamps, the problem would be difficult.
 
  */
