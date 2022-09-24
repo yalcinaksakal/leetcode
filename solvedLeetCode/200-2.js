@@ -11,13 +11,16 @@ var numIslands = function (grid) {
 		visit(i, j + 1);
 		visit(i, j - 1);
 	};
-	let res = 0;
-	for (let i = 0; i < grid.length; i++)
-		for (let j = 0; j < grid[0].length; j++)
-			if (grid[i][j] === "1") {
-				res++;
-				visit(i, j);
-			}
-
-	return res;
+	return grid.reduce(
+		(acc, row, i) =>
+			acc +
+			row.reduce((acc, cell, j) => {
+				if (cell === "1") {
+					visit(i, j);
+					return acc + 1;
+				}
+				return acc;
+			}, 0),
+		0
+	);
 };
